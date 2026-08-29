@@ -2,7 +2,7 @@
 
 ### The Decisions the Exam Tests
 
-A practitioner guide for the Anthropic **CCAR-P** certification: 21 chapters, around 75K words, covering all 38 objectives across the seven exam domains. Pattern selection, context strategy, retrieval design, integration surfaces, evaluation, safety and guardrail placement, stakeholder communication, and the lifecycle work that starts after a system ships.
+A practitioner guide for the Anthropic **CCAR-P** certification: 21 chapters, around 80K words, covering all 38 objectives across the seven exam domains. Pattern selection, context strategy, retrieval design, integration surfaces, evaluation, safety and guardrail placement, stakeholder communication, and the lifecycle work that starts after a system ships.
 
 The editorial position is this: the exam tests decisions, not features. Much of what it asks has no documentation page behind it, because it is asking how an architect behaves and not how Claude behaves. So the book argues each decision to the point where the trade-off is visible, on the theory that reasoning transfers to a question nobody has seen and a memorised answer does not.
 

@@ -1,52 +1,64 @@
 # Glossary
 
-**Summary:** *Two kinds of entry. The names this book coins for recurring shapes, which exist so you can recognise a pattern in a scenario you have not seen. And the platform terms whose precise definitions decide items, where being approximately right is the same as being wrong. Chapter references point at where each one is argued.*
+**Summary**: *Two kinds of entry. The names this book coins for recurring shapes, which exist so you can recognise a pattern in a scenario you have not seen. And the platform terms whose precise definitions decide items, where being approximately right is the same as being wrong. Chapter references point at where each one is argued.*
 
 ## Names This Book Coins
 
 **Chunk by corpus, index by query** (ch. 9). Two decisions that get made as one. Where you cut the material follows the structure of the material; how you match against it follows the questions people actually ask.
 
-**The 50-session winner** (ch. 14). A variant declared better on a sample too small to separate it from noise. The defect is not the sample size, it is that the stopping rule was chosen after somebody had seen the data.
+The **50-session winner** (ch. 14). A variant declared better on a sample too small to separate it from noise. The defect is not the sample size, it is that the stopping rule was chosen after somebody had seen the data.
 
-**The delegation boundary** (ch. 1). The line separating work handed to the model from work kept under deterministic or human control. Drawing it is the design, not a step within it.
+The **delegation boundary** (ch. 1). The line separating work handed to the model from work kept under deterministic or human control. Drawing it is the design, not a step within it.
 
-**The evidence artifact** (ch. 17). A record of one single interaction, holding everything that went into it, proof nobody edited it afterwards, and a lifespan matching what a regulator requires. The only thing that answers what happened on a specific transaction.
+The **evidence artifact** (ch. 17). A record of one single interaction, holding everything that went into it, proof nobody edited it afterwards, and a lifespan matching what a regulator requires. The only thing that answers what happened on a specific transaction.
 
-**The failure taxonomy** (ch. 12). The list of distinct ways a system can be wrong, each needing its own detection. Its defining feature here is that almost every entry reads as success to conventional monitoring.
+The **failure taxonomy** (ch. 12). The list of distinct ways a system can be wrong, each needing its own detection. Its defining feature here is that almost every entry reads as success to conventional monitoring.
 
-**The feasibility verdict** (ch. 3). A written answer to whether this can be built inside the stated constraints, issued before the build starts. Comes in three flavours and only two ever get issued.
+The **feasibility verdict** (ch. 3). A written answer to whether this can be built inside the stated constraints, issued before the build starts. Comes in three flavours and only two ever get issued.
 
-**The load-bearing control** (ch. 11). The one input that, when changed, actually moves the number you care about. Everything else is a knob you can turn all day.
+The **load-bearing control** (ch. 11). The one input that, when changed, actually moves the number you care about. Everything else is a knob you can turn all day.
 
 **Retrieval applied to live state** (ch. 6). Pointing an index at data that changes faster than the index is rebuilt. Produces the worst available output: a confident, well-sourced, stale answer.
 
 **Review by stakes** (ch. 16). Setting each gate according to what a mistake there would cost, judged on whether the outcome can be undone and how far it spreads. The alternative to reviewing by volume, which is unaffordable, or by convenience, which is unsafe.
 
-**The signal that reaches a person** (ch. 19). The only part of a feedback loop that counts. Everything upstream is plumbing, and plumbing loses things quietly.
+The **signal that reaches a person** (ch. 19). The only part of a feedback loop that counts. Everything upstream is plumbing, and plumbing loses things quietly.
 
-**The three readers** (ch. 20). The implementer, who needs what to build; the operator, who needs how to run and diagnose it; the reviewer, who needs why it was decided this way. Most documents serve one.
+The **three readers** (ch. 20). The implementer, who needs what to build; the operator, who needs how to run and diagnose it; the reviewer, who needs why it was decided this way. Most documents serve one.
 
-**The uncatchable failure** (ch. 5). A subagent returning a confident, well-formed, wrong result that the orchestrator has no independent means of doubting.
+The **uncatchable failure** (ch. 5). A subagent returning a confident, well-formed, wrong result that the orchestrator has no independent means of doubting.
 
-**The uninformed approval** (ch. 18). A yes from somebody who could not have said no, because nothing they were shown would have told them to. Looks exactly like success and transfers no accountability.
+The **uninformed approval** (ch. 18). A yes from somebody who could not have said no, because nothing they were shown would have told them to. Looks exactly like success and transfers no accountability.
 
-**The undocumented assumption** (ch. 2). A constraint that binds the design, was true before the project started, and has never been said aloud because nobody asked a question that would have surfaced it.
+The **undocumented assumption** (ch. 2). A constraint that binds the design, was true before the project started, and has never been said aloud because nobody asked a question that would have surfaced it.
 
-**The unencoded policy** (ch. 15). A rule that exists in intent, in prose or in a system prompt, but nowhere in machinery. Holds exactly as long as the model chooses to comply.
+The **unencoded policy** (ch. 15). A rule that exists in intent, in prose or in a system prompt, but nowhere in machinery. Holds exactly as long as the model chooses to comply.
 
-**The underspecification gap** (ch. 8). The distance between what you told the model and what you actually require. A contradiction in a prompt is that gap made visible; most of it is not visible at all.
+The **underspecification gap** (ch. 8). The distance between what you told the model and what you actually require. A contradiction in a prompt is that gap made visible; most of it is not visible at all.
 
-**The verification checklist** (ch. 21). The short run of observations that pins down the faulty layer before anybody touches a setting. Exists because a change made before diagnosis destroys attribution.
+The **verification checklist** (ch. 21). The short run of observations that pins down the faulty layer before anybody touches a setting. Exists because a change made before diagnosis destroys attribution.
 
-**The working-memory cliff** (ch. 7). The point where adding context stops helping and starts costing you recall of what is already there. Silent, and not uniform across the window.
+The **working-memory cliff** (ch. 7). The point where adding context stops helping and starts costing you recall of what is already there. Silent, and not uniform across the window.
 
 ## Platform and Blueprint Terms
 
 **Activity Feed** (ch. 17). The Compliance API's event stream. At-least-once, so deduplicate on activity id, and it offers no completeness signal.
 
+**Architecture decision record (ADR)** (ch. 20). One decision to a record, carrying the **context** that made it necessary, the **decision**, the **alternatives considered**, the **consequences** accepted, and the **date and authors**.
+
 **Adaptive thinking** (ch. 7). Reasoning with no fixed token budget, steered by effort. Requesting it on an extended-thinking-only model returns a 400.
 
+**AI Fluency, the 4Ds** (ch. 1). **Delegation**, deciding what the model does at all; **Description**, telling it what you want; **Discernment**, judging what came back; **Diligence**, owning what you ship. Three named parts each, twelve in total.
+
+**Approval rate parity** (ch. 17). Whether each group gets a yes at a similar rate. Silent on **who was refused in error**, which is **error rate parity**, a separate measurement.
+
 **Agent** (ch. 4). The pattern that picks each next step by looking at what the last one returned. Not "more capable" or "more autonomous".
+
+**Discernment observation** (ch. 1). A statement about the **output**, the **reasoning that produced it**, or the **system's behaviour**. A caveat about **sample size or study duration** is not one.
+
+**Error rate parity** (ch. 17). Whether each group suffers **wrong decisions** at a similar rate. The measurement an approval-rate study leaves unmade.
+
+**Minimum necessary** (ch. 17). The HIPAA rule that only the protected information a purpose requires may be used or disclosed. **Role-based access control implements it**.
 
 **Augmented call** (ch. 4). A single model call given tools, retrieval, or both.
 

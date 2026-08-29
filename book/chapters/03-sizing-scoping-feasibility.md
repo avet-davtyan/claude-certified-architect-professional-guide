@@ -1,20 +1,20 @@
 # Chapter 3: Sizing, Scoping, and the Feasibility Verdict
 
-**Summary:** *Two things get decided badly at the start of a project and both are recoverable only at great expense. The first is whether this is worth building, which turns on naming the kind of value being claimed rather than asserting that value exists. The second is whether it can be built at all inside the constraints, which is arithmetic you can do in an afternoon and which most teams postpone until it is a discovery instead of a decision. This chapter covers the five value pillars, the elimination gate that outranks all of them, and what each phase of the lifecycle owes the next one.*
+**Summary**: *Two things get decided badly at the start of a project and both are recoverable only at great expense. The first is whether this is worth building, which turns on naming the kind of value being claimed rather than asserting that value exists. The second is whether it can be built at all inside the constraints, which is arithmetic you can do in an afternoon and which most teams postpone until it is a discovery instead of a decision. This chapter covers the five value pillars, the elimination gate that outranks all of them, and what each phase of the lifecycle owes the next one.*
 
 ## Three Feasibility Verdicts, and the Two That Never Get Issued
 
 A feasibility assessment has three possible outcomes, and in practice you will see one.
 
-**Yes.** Buildable inside the constraints as stated.
+**Yes**. Buildable inside the constraints as stated.
 
-**Yes, if.** Buildable once something specific changes: a constraint relaxes, a data source becomes available, a target moves. This verdict is only useful when the "if" is written down and has an owner, otherwise it decays into "yes" within about two meetings.
+**Yes**, if. Buildable once something specific changes: a constraint relaxes, a data source becomes available, a target moves. This verdict is only useful when the "if" is written down and has an owner, otherwise it decays into "yes" within about two meetings.
 
-**No.** Not buildable inside the constraints as stated, and the constraints are not moving.
+**No**. Not buildable inside the constraints as stated, and the constraints are not moving.
 
-Name the deliverable: **the feasibility verdict** is a written answer to whether this can be built inside the stated constraints, issued before the build starts, and it is a real deliverable rather than a mood. The reason the third verdict almost never appears is not that it is rarely true. It is that no organisation funds a line item for work it correctly declined to begin, so the cost of the absent "no" surfaces somewhere else entirely, half a year on, filed under a different cause.
+Name the deliverable: the **feasibility verdict** is a written answer to whether this can be built inside the stated constraints, issued before the build starts, and it is a real deliverable rather than a mood. The reason the third verdict almost never appears is not that it is rarely true. It is that no organisation funds a line item for work it correctly declined to begin, so the cost of the absent "no" surfaces somewhere else entirely, half a year on, filed under a different cause.
 
-The habit that makes the verdict honest is small: **say what would have to be true for the answer to change.** A "no" with no conditions attached is an opinion. A "no" that names the two constraints which, if either moved, would make it a "yes" is an engineering result, and it is also the thing that gets the constraint moved.
+The habit that makes the verdict honest is small: say **what would have to be true** for the **answer to change**. A "no" with no conditions attached is an opinion. A "no" that names the two constraints which, if either moved, would make it a "yes" is an engineering result, and it is also the thing that gets the constraint moved.
 
 ## Sizing Is Arithmetic You Can Do Before Writing Anything
 
@@ -28,17 +28,17 @@ What it costs. Input and output tokens are priced separately on every tier.<sup>
 
 Whether it has to be synchronous. Asynchronous batch processing costs 50% less, and most batches complete inside an hour.<sup>[4]</sup> Whether the work is interactive is therefore a pricing decision as well as a user-experience one, and it is worth asking explicitly rather than defaulting to synchronous because that is how the prototype was built.
 
-One more number belongs in the verdict and it is about time rather than money. Anthropic publishes which models are active, deprecated or retired, with retirement dates and recommended replacements, gives at least 60 days notice before retiring a publicly released model, and fails requests sent to a model after its retirement date.<sup>[5]</sup> **A design pinned to a specific model has a shelf life, and the notice period is the planning horizon you are given.** Build the migration path in, or accept that you have scheduled an outage you have not put in the plan.
+One more number belongs in the verdict and it is about time rather than money. Anthropic publishes which models are active, deprecated or retired, with retirement dates and recommended replacements, gives at least 60 days notice before retiring a publicly released model, and fails requests sent to a model after its retirement date.<sup>[5]</sup> A design **pinned to a specific model** has a **shelf life**, and the **notice period** is the **planning horizon you are given**. Build the migration path in, or accept that you have scheduled an outage you have not put in the plan.
 
 ## An SLA Is an Elimination Gate, Not a Fifth Thing to Trade
 
 This is the single highest-value distinction in this chapter, because it changes the shape of the analysis rather than one input to it.
 
-When a scenario states a performance commitment, that commitment is not a factor you weigh against cost and quality. **It is a filter you apply first.** Architectures that cannot meet it are removed from consideration, and only then do you compare what survives on value and cost.
+When a scenario states a performance commitment, that commitment is not a factor you weigh against cost and quality. It is a **filter you apply first**. Architectures that cannot meet it are removed from consideration, and only then do you compare what survives on value and cost.
 
 Get this backwards and the analysis produces an answer that scores beautifully and cannot meet its own stated commitment. That failure is invisible in the scoring, because a weighted-average approach lets a strong cost result compensate for a latency shortfall, and the average has no way to know that one of those two is a promise with a consequence attached.
 
-**The named anti-pattern is treating a stated commitment as a soft target that tuning will close later.** It is seductive because it is occasionally true and because it defers an unwelcome conversation. Ask instead what is owed when the number is missed. If something is owed, it is a gate.
+The **named anti-pattern** is treating a **stated commitment** as a **soft target that tuning will close later**. It is seductive because it is occasionally true and because it defers an unwelcome conversation. Ask instead what is owed when the number is missed. If something is owed, it is a gate.
 
 ## The Five Value Pillars, and the Two Everyone Confuses
 
@@ -60,13 +60,13 @@ If the claim is measured per person, it is productivity. An analyst who used to 
 
 Two consequences fall out of that test and both are worth carrying.
 
-**Eliminating a role is efficiency, not transformation.** The same work is being done for less. Nothing new became possible.
+**Eliminating a role is efficiency, not transformation**. The same work is being done for less. Nothing new became possible.
 
-**Time saved is not automatically value realised.** When hours per document drop and billable output stays flat, the efficiency gain is real and the productivity gain did not happen. That is not a rounding error, it is the most common way a successful pilot produces no business result, and naming it as unrealised productivity is what lets somebody go and fix it.
+**Time saved is not automatically value realised**. When hours per document drop and billable output stays flat, the efficiency gain is real and the productivity gain did not happen. That is not a rounding error, it is the most common way a successful pilot produces no business result, and naming it as unrealised productivity is what lets somebody go and fix it.
 
 ## What Each Lifecycle Phase Owes the Next One
 
-The lifecycle runs discovery, design, handoff, monitoring, iteration. The useful way to hold it is not as a sequence of activities but as a chain of obligations: **a phase output is only real if a later phase consumes it.**
+The lifecycle runs discovery, design, handoff, monitoring, iteration. The useful way to hold it is not as a sequence of activities but as a chain of obligations: a **phase output is only real if a later phase consumes** it.
 
 That is the test that separates a genuine deliverable from a ceremonial one. A reusable evaluation set is consumed later. A distilled set of findings is consumed later. A status deck, an announcement, a frozen snapshot of a document nobody opens again, all record or celebrate what already happened and hand nothing forward.
 
@@ -80,20 +80,19 @@ Monitoring has an equally sharp definition and three named wrong answers. Sound 
 
 Teams argue about this for weeks and there is a one-line test.
 
-**A signal forces redesign only when it names a requirement the current decomposition cannot express. Everything absorbable inside the existing boundaries is iteration.**
+A signal **forces redesign** only when it names a **requirement the current decomposition cannot express**. Everything **absorbable inside the existing boundaries** is **iteration**.
 
 Accuracy is below target on a subset of cases: the components are still the right components, so that is iteration. Latency is 40% over on the slowest path: still iteration. A new requirement arrives that the system has no place to put, because no component owns that concept and no interface carries it: that is redesign, and calling it iteration means you will spend three months adding a fourth parameter to something that needed a new part.
 
 Volume alone almost never forces redesign. A change in what the system must be able to say usually does.
 
 ## How Wrong Answers Are Built on Sizing and Value Questions
-
 Four families cover almost everything here.
 
-- **The wrong denominator.** The option assigns an outcome to a pillar by picking up its most striking noun rather than its measurement. Time per document sounds like productivity because it involves people getting more done. It is efficiency, because the measure is per document. **The test: what is the outcome measured per? Per unit of work is efficiency, per person is productivity, and a capability that did not previously exist at all is transformation.**
-- **The commitment demoted to a preference.** The option trades a stated service level against cost or quality, or defers it to tuning. **The test: is something owed when the number is missed? If yes, it eliminates rather than scores.**
-- **The artifact that hands nothing forward.** The option produces a record, an announcement, a snapshot or a history. It looks like diligence and no later phase consumes it. **The test: name the phase that will open this and the decision it will make with it.** If you cannot, it is ceremony.
-- **The change with no evidence behind it.** The option acts on a schedule, on a vendor release, or on a complaint. **The test: is there a measurement that would have detected this, and does the change get gated on it?**
+- The **wrong denominator**. The option assigns an outcome to a pillar by picking up its most striking noun rather than its measurement. Time per document sounds like productivity because it involves people getting more done. It is efficiency, because the measure is per document. The test: what is the **outcome measured per**? **Per unit of work is efficiency**, **per person is productivity**, and a **capability that did not previously exist** at all is transformation.
+- The **commitment demoted to a preference**. The option trades a stated service level against cost or quality, or defers it to tuning. The test: is **something owed when the number is missed**? If yes, it **eliminates rather than scores**.
+- The **artifact that hands nothing forward**. The option produces a record, an announcement, a snapshot or a history. It looks like diligence and no later phase consumes it. The test: **name the phase that will open** this and the **decision it will make** with it. If you cannot, it is ceremony.
+- The **change with no evidence behind** it. The option acts on a schedule, on a vendor release, or on a complaint. The test: is there a **measurement that would have detected** this, and does the **change get gated** on it?
 
 | When the scenario says | The answer is usually | The trap is usually |
 |---|---|---|
@@ -110,21 +109,20 @@ Four families cover almost everything here.
 | Something should trigger a change to the system | A refreshed evaluation set, observed on a schedule, gating the change | The calendar, a vendor release, or a user complaint |
 | A system works correctly and nobody uses it | The work around the tool was designed badly | Any option that looks for a defect in the tool |
 
-The habit worth more than the table: **when an option names a benefit, ask what number would go up and who would notice.** Most wrong answers here describe a benefit that nobody would be able to detect after the fact.
+The habit worth more than the table: when an option names a benefit, ask **what number would go up** and **who would notice**. Most wrong answers here describe a benefit that nobody would be able to detect after the fact.
 
 ## What to Remember
-
-- **A feasibility verdict has three outcomes: yes, yes-if, and no.** A "yes, if" is only real when **the condition is written down and has an owner**, and a "no" is only useful when it **names what would have to change to make it a yes**. The missing verdict is almost always "no", because nobody funds the project that should not have started.
-- **Sizing is arithmetic available before you build.** The token counting endpoint returns the input token count for a real payload before you send it; **context windows are 1M tokens on some models and 200k on others**, capped at 600 images or PDF pages per request, or 100 on the smaller ones. If one unit of work does not fit, that is a structural finding.
-- **Input and output tokens are priced separately**, so a workload that reads a lot and writes a little has different economics from the reverse. **Asynchronous batch processing costs 50% less and most batches finish within an hour**, which makes "does this have to be interactive?" a pricing question.
-- **A model has a retirement date and at least 60 days notice, after which requests to it fail.** A design pinned to one model has a shelf life, so the migration path belongs in the plan.
-- **A stated SLA is an elimination gate applied before value scoring, not a fifth factor to trade against cost and quality.** The test for whether something is a real commitment: **something is owed when the number is missed.**
-- **Five value pillars: efficiency, productivity, transformation, cost, performance SLAs.** Efficiency and productivity are separated by the denominator: **per unit of work is efficiency, per person is productivity**, and **transformation requires work that was not previously possible at any price**. Removing a role is efficiency.
-- **Hours saved is not value realised.** When time per item falls and business output stays flat, that is **unrealised productivity**, and naming it that way is what lets somebody act on it.
-- **A lifecycle phase output is only real if a later phase consumes it.** Records, announcements and frozen snapshots hand nothing forward.
-- **Handoff is finished when the team inheriting the system can run it, diagnose it and change it safely with nobody from the original team available.** That takes **design rationale, operating procedures, and a runnable set of checks**. Project history, timelines and decision logs do none of that work.
-- **Iteration becomes redesign only when a requirement arrives that the current decomposition cannot express.** Anything the existing components and interfaces can absorb is iteration, however difficult.
-- **Sound monitoring means looking on a schedule, judging against test cases topped up from real traffic, and letting that judgement gate the change.** Acting on the calendar or on a vendor release moves without evidence, and acting on a complaint is not monitoring at all.
+- A feasibility verdict has **three outcomes: yes, yes-if, and no**. A "yes, if" is only real when the condition is **written down and has an owner**, and a "no" is only useful when it names what would have to **change** to make it a yes. The missing verdict is almost always "no", because nobody funds the project that should not have started.
+- **Sizing is arithmetic** available before you build. The token counting endpoint returns the input token count for a real payload **before you send** it; context windows are **1M tokens on some models and 200k on others**, capped at **600 images or PDF pages** per request, or 100 on the smaller ones. If one unit of work does not fit, that is a **structural finding**.
+- **Input and output tokens are priced separately**, so a workload that reads a lot and writes a little has different economics from the reverse. Asynchronous batch processing **costs 50% less** and most batches **finish within an hour**, which makes "does this have to be interactive?" a **pricing question**.
+- A model has a **retirement date** and at **least 60 days notice**, after which requests to it fail. A design pinned to one model has a **shelf life**, so the migration path belongs in the plan.
+- A stated SLA is an **elimination gate applied before value scoring**, not a fifth factor to trade against cost and quality. The test for whether something is a real commitment: **something is owed when the number is missed**.
+- **Five value pillars**: efficiency, productivity, transformation, cost, performance SLAs. Efficiency and productivity are separated by the denominator: **per unit of work is efficiency**, **per person is productivity**, and transformation requires **work that was not previously possible** at any price. Removing a role is efficiency.
+- Hours saved is **not value realised**. When time per item falls and business output stays flat, that is **unrealised productivity**, and naming it that way is what lets somebody act on it.
+- A lifecycle phase output is only real if a **later phase consumes** it. Records, announcements and frozen snapshots hand nothing forward.
+- Handoff is finished when the team inheriting the system can **run it, diagnose it and change it safely** with **nobody from the original team available**. That takes **design rationale**, **operating procedures**, and a **runnable set of checks**. Project history, timelines and decision logs do none of that work.
+- Iteration becomes **redesign** only when a requirement arrives that the **current decomposition cannot express**. Anything the existing components and interfaces can absorb is iteration, however difficult.
+- Sound monitoring means **looking on a schedule**, judging against **test cases topped up from real traffic**, and letting that judgement **gate the change**. Acting on the calendar or on a vendor release moves without evidence, and acting on a complaint is not monitoring at all.
 
 ## Endnotes for this chapter
 

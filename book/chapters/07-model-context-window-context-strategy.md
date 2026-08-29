@@ -1,6 +1,6 @@
 # Chapter 7: Model, Context Window, Context Strategy
 
-**Summary:** *This is the most heavily documented material on the exam, which means the questions can be precise and the wrong answers can be specific. Three things decide most of it: what actually consumes the window, why filling it makes quality worse rather than merely expensive, and when to load material up front against fetching it on demand. Model choice sits underneath all of that, and the defensible way to make it is to measure rather than to argue.*
+**Summary**: *This is the most heavily documented material on the exam, which means the questions can be precise and the wrong answers can be specific. Three things decide most of it: what actually consumes the window, why filling it makes quality worse rather than merely expensive, and when to load material up front against fetching it on demand. Model choice sits underneath all of that, and the defensible way to make it is to measure rather than to argue.*
 
 ## Everything in the Request Counts, Including the Part You Cached
 
@@ -18,13 +18,13 @@ Cached prompt prefixes still occupy the window. Caching changes what you are cha
 
 The context window is working memory rather than storage, and Anthropic is direct that more context is not automatically better, because **accuracy and recall degrade as the token count grows**.<sup>[1]</sup>
 
-Name it: **the working-memory cliff** is the point where adding material stops helping and starts costing you recall of the material already there. It has two properties that make it dangerous.
+Name it: the **working-memory cliff** is the point where adding material stops helping and starts costing you recall of the material already there. It has two properties that make it dangerous.
 
 It is not an error. Nothing fails, nothing throws, no status code changes. The system returns a fluent answer that has quietly stopped attending to something in the middle of what you gave it.
 
 It is not uniform. Recall does not degrade evenly across the window, which is why the characteristic symptom is that material near the middle of a long collection stops being used while material at either end still works.
 
-That second property is what makes the fix specific. **When both cost and mid-collection recall are failing, they are the same problem: volume.** Any option that keeps the full corpus loaded addresses neither, however clever it is about ordering, prompting or emphasis. Only reducing what enters the window per request touches both.
+That second property is what makes the fix specific. When both **cost and mid-collection recall** are failing, they are the **same problem**: **volume**. Any option that keeps the full corpus loaded addresses neither, however clever it is about ordering, prompting or emphasis. Only reducing what enters the window per request touches both.
 
 ## Which Models Have Which Window, and Which Know How Full It Is
 
@@ -51,7 +51,7 @@ Input alone exceeds the window. Every model returns a 400 invalid request error.
 
 Input plus max_tokens exceeds the window. On Claude 4.5 models and newer the request is *accepted*, runs, and stops with a `model_context_window_exceeded` stop reason if generation actually reaches the limit.<sup>[1]</sup>
 
-The second one is the dangerous shape, because it is not an error at submission time. You get a partial result and a stop reason, and **a caller that only checks for HTTP errors will treat a truncated answer as a complete one.** Any design generating long output near a full window has to read stop reasons, not just status codes.
+The second one is the dangerous shape, because it is not an error at submission time. You get a partial result and a stop reason, and a caller that only **checks for HTTP errors** will treat a **truncated answer as a complete one**. Any design generating long output near a full window has to read stop reasons, not just status codes.
 
 ## Choosing a Tier: Measure, Then Keep Measuring
 
@@ -68,25 +68,25 @@ The documented starting advice is to begin with Claude Opus 5 for complex agenti
 
 Two starting approaches are documented and both are legitimate.<sup>[4]</sup> **Cost-first** begins with a faster, cheaper model such as Claude Haiku 4.5, which allows quick iteration at lower development cost and is often sufficient. **Capability-first** implements against the strongest starting point for the task and optimises down to more efficient models later.
 
-Now the part the exam actually tests. **A tier you can defend is pinned to an accuracy bar somebody measured, and it stays pinned because the measuring continues.** Not settled by assumption, not by splitting the difference between two humans in a room, not inherited from whatever the prototype was built on.
+Now the part the exam actually tests. A tier you can defend is **pinned to an accuracy bar somebody measured**, and it **stays pinned because the measuring continues**. Not settled by assumption, not by splitting the difference between two humans in a room, not inherited from whatever the prototype was built on.
 
-And the counterpart, which decides several items on its own: **match capability to the difficulty of the decision, not to the importance of the system.** A high-volume labelling task cannot convert deeper reasoning into accuracy, because there is no reasoning to deepen, and the charge for that depth lands on every message, of which there are millions. Reasoning depth bought for work with no depth in it is a pure cost line.
+And the counterpart, which decides several items on its own: match capability to the **difficulty of the decision**, not to the **importance of the system**. A high-volume labelling task cannot convert deeper reasoning into accuracy, because there is no reasoning to deepen, and the charge for that depth lands on every message, of which there are millions. Reasoning depth bought for work with no depth in it is a pure cost line.
 
-One structural note about running the comparison. **A trial needs precisely two things before it can start: a quality bar everyone has agreed on, and one named model to test against it.** Everything else that gets proposed as a prerequisite, signing off the deployment, reading the results, settling the rollout plan, either happens afterwards or belongs to some other decision entirely.
+One structural note about running the comparison. A trial needs precisely **two things** before it can start: a **quality bar everyone has agreed on**, and **one named model to test against** it. Everything else that gets proposed as a prerequisite, signing off the deployment, reading the results, settling the rollout plan, either happens afterwards or belongs to some other decision entirely.
 
 ## What Thinking and Effort Actually Cost
 
-**Thinking tokens are billed as output tokens even when the thinking text is not returned, and they count toward max_tokens alongside the response.**<sup>[5]</sup> That is the sentence that surprises people. Reasoning is not free and not separate; it competes for the same output allowance the answer needs.
+**Thinking tokens** are **billed as output tokens** even when the **thinking text is not returned**, and they **count toward max_tokens** alongside the response.<sup>[5]</sup> That is the sentence that surprises people. Reasoning is not free and not separate; it competes for the same output allowance the answer needs.
 
 On adaptive models, no thinking budget is set, and two controls bound the cost.<sup>[6]</sup>
 
-**max_tokens is a hard ceiling on the request's total output.** Generation stops there.
+**max_tokens is a hard ceiling on the request's total output**. Generation stops there.
 
-**effort is soft guidance** about how much of that allowance is spent thinking rather than answering. Its levels run max, xhigh, high, medium, low, and **high is the default, equivalent to not setting the parameter at all.**<sup>[7]</sup> Behaviour runs from always thinking with no constraint on depth at the top, through moderate thinking that may skip simple queries at medium, down to minimised thinking that skips simple tasks where speed matters most at low.<sup>[6]</sup>
+**effort is soft guidance** about how much of that allowance is spent thinking rather than answering. Its levels run max, xhigh, high, medium, low, and **high is the default**, equivalent to **not setting the parameter** at all.<sup>[7]</sup> Behaviour runs from always thinking with no constraint on depth at the top, through moderate thinking that may skip simple queries at medium, down to minimised thinking that skips simple tasks where speed matters most at low.<sup>[6]</sup>
 
-Then the trap that catches agentic designs: **in a tool-use loop, each request has its own max_tokens, so it does not bound the whole turn's spend.**<sup>[6]</sup> Ten round trips means ten separate max_tokens ceilings. If a scenario needs the total bounded, max_tokens is the wrong instrument. **Task budgets declare a token allowance for the full agentic loop, covering thinking, tool calls, tool results and output**, with a running countdown the model paces against, much as a human does with a deadline.<sup>[8]</sup> Effort controls thoroughness per step; a task budget caps the total across the loop. They complement each other and neither substitutes for the other.
+Then the trap that catches agentic designs: in a tool-use loop, **each request has its own max_tokens**, so it does **not bound the whole turn's spend**.<sup>[6]</sup> Ten round trips means ten separate max_tokens ceilings. If a scenario needs the total bounded, max_tokens is the wrong instrument. **Task budgets** declare a **token allowance for the full agentic loop**, covering **thinking, tool calls, tool results and output**, with a running countdown the model paces against, much as a human does with a deadline.<sup>[8]</sup> Effort controls thoroughness per step; a task budget caps the total across the loop. They complement each other and neither substitutes for the other.
 
-One migration fact worth knowing: manual extended thinking, which sets a fixed per-request budget with `budget_tokens`, is documented as deprecated in favour of adaptive thinking controlled by effort. On models that support only extended thinking, including Claude Sonnet 4.5, Opus 4.5 and Haiku 4.5, **requesting adaptive thinking returns a 400 error.**<sup>[9]</sup> The control you use is a function of the model, not a preference.
+One migration fact worth knowing: manual extended thinking, which sets a fixed per-request budget with `budget_tokens`, is documented as deprecated in favour of adaptive thinking controlled by effort. On models that support only extended thinking, including Claude Sonnet 4.5, Opus 4.5 and Haiku 4.5, **requesting adaptive thinking returns a 400 error**.<sup>[9]</sup> The control you use is a function of the model, not a preference.
 
 ## Compaction and Context Editing Are Different Instruments
 
@@ -95,13 +95,13 @@ Both manage a growing conversation. They work differently and answer different s
 Compaction automatically summarises older context when a conversation approaches the window limit, which extends effective context length, and it also keeps the active context small because response quality degrades as a conversation grows.<sup>[10]</sup> The mechanics matter:
 
 - On later requests the API **drops all content blocks prior to the compaction block**. What was not carried into the summary is gone.
-- The trigger **defaults to 150,000 input tokens and must be at least 50,000.**
+- The trigger defaults to **150,000 input tokens** and must be at least **50,000**.
 - The default summarisation prompt varies by model and instructs Claude to record the state, next steps and learnings needed to continue in a future window.
-- **Custom instructions supplied through the `instructions` parameter replace the default prompt completely rather than supplementing it.**
+- **Custom instructions** supplied through the **`instructions` parameter** **replace the default prompt completely** rather than supplementing it.
 
 That last point is a live defect generator. A team writing custom instructions to capture one extra thing usually intends to add to the default behaviour, and instead silently discards the instruction to record state and next steps. If you override, you own the whole prompt.
 
-Context editing selectively clears content from conversation history as it grows, described as active curation on the grounds that context is a finite resource with diminishing returns and that irrelevant content degrades focus.<sup>[11]</sup> Its cost is specific: **clearing tool results invalidates cached prompt prefixes.** That is why a `clear_at_least` parameter exists, so a worthwhile minimum is cleared each time and you are not paying a cache invalidation to reclaim a handful of tokens.
+Context editing selectively clears content from conversation history as it grows, described as active curation on the grounds that context is a finite resource with diminishing returns and that irrelevant content degrades focus.<sup>[11]</sup> Its cost is specific: **clearing tool results invalidates cached prompt prefixes**. That is why a `clear_at_least` parameter exists, so a worthwhile minimum is cleared each time and you are not paying a cache invalidation to reclaim a handful of tokens.
 
 The distinction to carry: compaction **summarises** and is triggered by approaching the limit; context editing **removes** and is a curation decision you make deliberately, at a cost to your cache.
 
@@ -109,21 +109,20 @@ The distinction to carry: compaction **summarises** and is triggered by approach
 
 The last decision in this chapter is whether material enters the window before the request is understood, or after.
 
-The pattern that wins when it wins is the one that **makes the loaded set a function of the request itself.** Every alternative either fixes the set before anything is known about the request, or pays for all of it regardless.
+The pattern that wins when it wins is the one that **makes the loaded set a function of the request itself**. Every alternative either fixes the set before anything is known about the request, or pays for all of it regardless.
 
-Deferral is not free, so it needs the conditions spelled out. **Progressive discovery pays when the catalogue is mostly irrelevant to any given request, and when the token load is already degrading output quality.** Those are the two conditions that make the round trips worth it.
+Deferral is not free, so it needs the conditions spelled out. **Progressive discovery** pays when the **catalogue is mostly irrelevant to any given request**, and when the **token load is already degrading output quality**. Those are the two conditions that make the round trips worth it.
 
 It buys nothing in three cases, and each is a trap in its own right. Material that is **small** is not worth a round trip. Material that is **unchanging** can be cached and left in place. Material that is **required every time** will be fetched every time, so deferring it adds latency and removes nothing.
 
-There is a subtlety worth stating for tool catalogues specifically. The aim is to shrink how much text the model wades through without making the schemas unusable. **Trim the descriptions so hard that the tools stop being distinguishable and you have swapped a context problem for a selection problem**, and the second one is much harder to spot.
+There is a subtlety worth stating for tool catalogues specifically. The aim is to shrink how much text the model wades through without making the schemas unusable. **Trim the descriptions** so hard that the **tools stop being distinguishable** and you have **swapped a context problem for a selection problem**, and the second one is much harder to spot.
 
 ## How Wrong Answers Are Built on Model and Context Questions
-
-- **Capacity confused with quality.** The option addresses degraded recall by reordering, re-emphasising or instructing, while the same volume stays loaded. **The test: does this reduce what enters the window on each request?** If not, it cannot fix a volume symptom.
-- **Depth bought where there is none to buy.** The option raises the model tier or the reasoning depth for a task that is classification, extraction or lookup. **The test: is there multi-step reasoning here that a stronger model could perform better?**
-- **A per-request control offered against a whole-loop problem.** The option bounds spend with max_tokens across an agentic loop. **The test: how many requests does this ceiling apply to?**
-- **Preference standing in for measurement.** The option settles a tier by seniority, compromise, precedent or what the prototype used. **The test: is there a stated accuracy bar and a run against it?**
-- **Deferral applied to material that is small, static or always needed.** **The test: what fraction of requests actually need this, and is it already hurting quality?**
+- **Capacity confused with quality**. The option addresses degraded recall by reordering, re-emphasising or instructing, while the same volume stays loaded. The test: does this **reduce what enters the window** on each request? If not, it cannot fix a **volume symptom**.
+- **Depth bought where there is none to buy**. The option raises the model tier or the reasoning depth for a task that is classification, extraction or lookup. The test: is there **multi-step reasoning** here that a stronger model could perform better?
+- A **per-request control offered against a whole-loop problem**. The option bounds spend with max_tokens across an agentic loop. The test: how **many requests does this ceiling apply** to?
+- **Preference standing in for measurement**. The option settles a tier by seniority, compromise, precedent or what the prototype used. The test: is there a **stated accuracy bar** and a **run against** it?
+- **Deferral applied to material that is small, static or always needed**. The test: what **fraction of requests actually need** this, and is it **already hurting quality**?
 
 | When the scenario says | The answer is usually | The trap is usually |
 |---|---|---|
@@ -141,23 +140,22 @@ There is a subtlety worth stating for tool catalogues specifically. The aim is t
 | A tool catalogue is mostly irrelevant per request and quality is suffering | Load tools as a function of the request | Fixing the set in advance, or trimming descriptions until tools are indistinguishable |
 | Material is small, unchanging, or needed on every request | Load it up front | Deferring it, which adds round trips and removes nothing |
 
-The habit worth carrying: **before adding anything to a request, ask what it displaces.** The window is working memory, and everything in it competes with everything else.
+The habit worth carrying: **before adding anything to a request, ask what it displaces**. The window is working memory, and everything in it competes with everything else.
 
 ## What to Remember
-
-- **Everything in the request counts toward the window**: system prompt, every message and tool result, images, documents, **tool definitions**, and the turn's output. **Cached prefixes still occupy the window**, because caching changes what you pay for those tokens, not whether they count.
-- **The context window is working memory, not storage, and accuracy and recall degrade as the token count grows.** The failure is silent and uneven, showing up as **material in the middle of a long collection going unused** while both ends still work.
-- **When cost and mid-collection recall are both failing, they have one cause: volume.** Only reducing what enters the window per request fixes either.
-- **A 1M-token window with up to 128k output tokens is available on Opus 5, 4.8, 4.7, 4.6 and Sonnet 5, 4.6; other models including Sonnet 4.5 have 200k.** On Claude 4.6 and later **the full window is standard pricing**, so a 900k request costs the same per token as a 9k one.
-- **Context awareness is model-specific and not tied to capability.** Sonnet 5, 4.6, 4.5 and Haiku 4.5 receive their total budget in every system prompt plus a remaining-capacity update after each tool call; **Opus 4.7 and later Opus, Fable 5 and Mythos 5 do not.**
-- **Input alone over the window returns a 400 on every model. Input plus max_tokens over the window is accepted on Claude 4.5 and newer** and stops with **`model_context_window_exceeded`** if generation reaches the limit, so **a caller checking only HTTP status will read truncation as completion.**
-- **A model tier you can defend is pinned to an accuracy bar somebody measured, and the measuring does not stop.** **Match capability to how hard the decision is, not to how important the system is**: labelling work cannot turn reasoning depth into accuracy and gets charged for it on every message. **A trial needs two things only, an agreed quality bar and one named model.**
-- **Thinking tokens bill as output even when not returned and count against max_tokens.** **max_tokens is a hard cap per request; effort is soft guidance on how much goes to thinking**, with levels max, xhigh, high, medium, low and **high as the default**.
-- **In a tool-use loop each request has its own max_tokens, so it does not bound the turn.** **A task budget covers the whole agentic loop**, thinking and tool calls and results and output, with a countdown the model paces against.
-- **`budget_tokens` manual extended thinking is deprecated in favour of effort, and requesting adaptive thinking on an extended-thinking-only model (Sonnet 4.5, Opus 4.5, Haiku 4.5) returns a 400.**
-- **Compaction summarises older context near the limit and drops all content blocks before the compaction block**, triggering at a default of **150,000 input tokens, minimum 50,000**. **Custom `instructions` replace the default prompt entirely**, so an override that means to add one thing silently loses the instruction to record state and next steps.
-- **Context editing removes rather than summarises, and clearing tool results invalidates cached prefixes**, which is why **`clear_at_least` exists**: clear a worthwhile amount at once rather than paying the cache cost repeatedly.
-- **Progressive discovery pays when the catalogue is mostly irrelevant per request and the load is already degrading quality.** It buys nothing for material that is **small, unchanging, or needed every time**. Trimming tool descriptions until the tools stop being distinguishable **swaps a context problem for a selection problem.**
+- **Everything in the request counts** toward the window: system prompt, every message and tool result, images, documents, **tool definitions**, and the turn's output. **Cached prefixes still occupy the window**, because caching changes what you pay for those tokens, not whether they count.
+- The context window is **working memory, not storage**, and **accuracy and recall degrade** as the token count grows. The failure is **silent and uneven**, showing up as material in the **middle of a long collection** going unused while both ends still work.
+- When cost and mid-collection recall are both failing, they have **one cause: volume**. Only **reducing what enters the window** per request fixes either.
+- A **1M-token window** with up to **128k output tokens** is available on Opus 5, 4.8, 4.7, 4.6 and Sonnet 5, 4.6; other models including Sonnet 4.5 have **200k**. On Claude 4.6 and later the full window is **standard pricing**, so a 900k request costs the same per token as a 9k one.
+- **Context awareness is model-specific** and **not tied to capability**. Sonnet 5, 4.6, 4.5 and Haiku 4.5 receive their total budget in every system prompt plus a remaining-capacity update after each tool call; **Opus 4.7 and later Opus**, **Fable 5 and Mythos 5** do not.
+- **Input alone over the window returns a 400** on every model. **Input plus max_tokens over the window is accepted** on Claude 4.5 and newer and stops with `**model_context_window_exceeded**` if generation reaches the limit, so a caller checking only HTTP status will **read truncation as completion**.
+- A model tier you can defend is **pinned to an accuracy bar somebody measured**, and the **measuring does not stop**. Match capability to how **hard the decision** is, not to how **important the system** is: labelling work cannot turn reasoning depth into accuracy and gets charged for it on every message. A trial needs **two things only**, an **agreed quality bar** and **one named model**.
+- **Thinking tokens bill as output** even when not returned and **count against max_tokens**. **max_tokens is a hard cap per request**; **effort is soft guidance** on how much goes to thinking, with levels max, xhigh, high, medium, low and **high as the default**.
+- In a tool-use loop **each request has its own max_tokens**, so it does **not bound the turn**. A **task budget covers the whole agentic loop**, thinking and tool calls and results and output, with a countdown the model paces against.
+- `**budget_tokens` manual extended thinking is deprecated** in favour of effort, and requesting **adaptive thinking on an extended-thinking-only model** (Sonnet 4.5, Opus 4.5, Haiku 4.5) **returns a 400**.
+- **Compaction** summarises older context near the limit and **drops all content blocks before the compaction block**, triggering at a default of **150,000 input tokens, minimum 50,000**. Custom `instructions` **replace the default prompt entirely**, so an override that means to add one thing silently loses the instruction to record state and next steps.
+- **Context editing removes rather than summarises**, and **clearing tool results invalidates cached prefixes**, which is why `**clear_at_least` exists**: clear a worthwhile amount at once rather than paying the cache cost repeatedly.
+- **Progressive discovery pays** when the catalogue is **mostly irrelevant per request** and the load is **already degrading quality**. It buys nothing for material that is **small, unchanging, or needed every time**. Trimming tool descriptions until the tools stop being distinguishable **swaps a context problem for a selection problem**.
 
 ## Endnotes for this chapter
 

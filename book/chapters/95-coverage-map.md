@@ -1,6 +1,6 @@
 # Coverage Map
 
-**Summary:** *Every objective on the published blueprint, and the chapter that owns it. Use
+**Summary**: *Every objective on the published blueprint, and the chapter that owns it. Use
 this to find the chapter behind a weakness rather than reading in order. The domain weights
 are the blueprint's own, and they are worth looking at before deciding where to spend an
 evening.*
@@ -86,12 +86,12 @@ that should drive it.
 
 | Domain | Weight | Chapters covering it |
 |---|---|---|
-| 1 Solution Design & Architecture | **17%** | 1, 3, 4, 5 |
-| 2 Claude Models, Prompting & Context Engineering | **13%** | 4, 7, 8 |
-| 3 Integration | **19%** | 6, 7, 9, 10, 11, 12 |
-| 4 Evaluation, Testing & Optimization | **16%** | 11, 12, 13, 14 |
-| 5 Governance, Safety & Risk Management | **14%** | 15, 16, 17 |
-| 6 Stakeholder Communication & Lifecycle Management | **14%** | 2, 3, 18, 19, 20 |
-| 7 Developer Productivity & Operational Enablement | **7%** | 21 |
+| 1 Solution Design & Architecture | **17**% | 1, 3, 4, 5 |
+| 2 Claude Models, Prompting & Context Engineering | **13**% | 4, 7, 8 |
+| 3 Integration | **19**% | 6, 7, 9, 10, 11, 12 |
+| 4 Evaluation, Testing & Optimization | **16**% | 11, 12, 13, 14 |
+| 5 Governance, Safety & Risk Management | **14**% | 15, 16, 17 |
+| 6 Stakeholder Communication & Lifecycle Management | **14**% | 2, 3, 18, 19, 20 |
+| 7 Developer Productivity & Operational Enablement | **7**% | 21 |
 
 Total objectives: **38**, all of them owned by exactly one chapter.
