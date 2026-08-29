@@ -17,7 +17,7 @@ You have an exam booked, or you are about to. That is the only reader this book 
 
 One rule governs the whole thing. Every paragraph has to **earn its place** against **something the exam actually tests**. Not against being interesting, not against being complete, and certainly not against sounding thorough. If a passage would not help you answer something you would otherwise get wrong, it is not here.
 
-There is a lot of good writing about building with these systems, and almost none of it is organised around what you will be asked. This is not a survey of the field. It is a working guide to 38 objectives across 7 domains, at roughly 60,000 words, which is a weekend to read and an evening to re-skim.
+There is a lot of good writing about building with these systems, and almost none of it is organised around what you will be asked. This is not a survey of the field. It is a working guide to 38 objectives across 7 domains, at roughly 80,000 words, which is a weekend to read and an evening to re-skim.
 
 That length is deliberate. A **book you finish is worth more than a book you respect**, and the ground here is wide enough that a thorough treatment of it would never get read by the person who needs it most.
 
