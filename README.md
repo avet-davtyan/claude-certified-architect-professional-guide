@@ -6,7 +6,7 @@ A practitioner guide for the Anthropic **CCAR-P** certification: 21 chapters, ar
 
 The editorial position is this: the exam tests decisions, not features. Much of what it asks has no documentation page behind it, because it is asking how an architect behaves and not how Claude behaves. So the book argues each decision to the point where the trade-off is visible, on the theory that reasoning transfers to a question nobody has seen and a memorised answer does not.
 
-> **Work in progress.** I have not sat the exam yet. The book is grounded, checked and cited, and it has not been tested against the thing it prepares you for. I might revise it once it has been.
+> **Tested.** I sat CCAR-P on 1 September 2026 and passed with a scaled score of 973 against a pass mark of 720, missing 2 questions on the whole exam. This book was the only book I read to understand the material. There were no other books, tutorials or courses.
 
 ## How the chapters are built
 
@@ -129,12 +129,6 @@ The documentation vaults, the pipeline, and the working files are not published.
 ## Coverage cutoff
 
 Documentation sources were consulted through August 2026, and the exam guide is version 1.0, effective July 2026. The Claude platform, Claude Code and MCP are under active development, and the model lineup in particular moves faster than any book about it. The text documents behaviour as of its writing date. Verify time-sensitive claims against current documentation before relying on them for a production decision or for the exam.
-
-## Maintenance
-
-I have not sat the exam yet, so treat this as a first edition. When I do sit it, I might come back and fix whatever the experience shows is missing, thin, or pitched at the wrong depth. Until then the book is as good as its sources and its checks, which is a real standard and not the same one as having been through the thing it describes.
-
-If you find an error, or a place where the product has moved on, open a pull request. I will read it and apply it.
 
 ## AI assistance, scope of
 

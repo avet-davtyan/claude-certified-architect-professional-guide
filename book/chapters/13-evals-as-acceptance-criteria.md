@@ -40,7 +40,7 @@ The labelled dataset. The items, with their expected answers.
 
 Everything else takes the run's output as its input. Scoring consumes results. Expert review consumes results. Dashboard reporting consumes results. Pick a third and you have taken something that **eats the output** and called it a **precondition**, which is the observability chapter's dashboard error wearing different clothes.
 
-That shape recurs across the book with different subject matter, and it is worth recognising as one question rather than four. The **correct pair always produces the inputs the named activity consumes**. Everything else in the list either **takes the activity's output as its input**, or **consumes the design decisions** the question is asking you to identify.
+That shape recurs across the book with different subject matter, and it is worth recognising as one question rather than five. The **correct pair always produces the inputs the named activity consumes**. Everything else in the list either **takes the activity's output as its input**, or **consumes the design decisions** the question is asking you to identify.
 
 | Before you can | What must already exist | What the rest of the list does |
 |---|---|---|
@@ -48,10 +48,11 @@ That shape recurs across the book with different subject matter, and it is worth
 | Estimate **likelihood and impact** | The **assets and their sensitivity**, and the **threat actors and routes** | Recommends mitigations, accepts residual risk, writes the assessment up |
 | Pilot a **human review layer** | Which **decision points need a person**, and the **sampling and escalation rules** at each | Documents the workflow, trains reviewers, iterates on pilot findings |
 | Instrument for **monitoring** | The **service-level objectives and error budgets**, and the **metrics and slices** | Tunes alert thresholds, builds dashboards, writes runbooks |
+| Draft a **section of an architecture guide** | The **audience** and the **questions the section answers**, and the **section outline** | Translates it, version-controls it, validates it with reviewers |
 
 Two shapes recur in the wrong answers, and naming them beats reasoning from scratch. A **consumer of results dressed as a precondition**: scoring, dashboards, expert review, mitigation. And a **product of the design dressed as part** of it: documentation and reviewer training both happen before traffic flows, and both need the **decisions to exist already** in order to record or teach them.
 
-The risk-assessment row decomposes most cleanly of the four. **Likelihood and impact are each the product of one inventory**. Cataloguing what the **deployment touches**, and how sensitive each holding is, gives you the **impact half**. Listing who would **attack and by which routes** gives you the **likelihood half**. Neither half can be scored while the other list is missing.
+The risk-assessment row decomposes most cleanly of the five. **Likelihood and impact are each the product of one inventory**. Cataloguing what the **deployment touches**, and how sensitive each holding is, gives you the **impact half**. Listing who would **attack and by which routes** gives you the **likelihood half**. Neither half can be scored while the other list is missing.
 
 
 ## An Evaluation Set That Can Generalise
@@ -95,6 +96,24 @@ Does it **hold together when somebody attacks** it, deliberately and in bad fait
 They are orthogonal, which is why both get selected when a scenario asks for the components of a framework. A system can be excellent at its job and trivially manipulable. A system can be hard to break and bad at the work.
 
 The alternatives fail in two recognisable ways. Some sample only outcomes already known to succeed, which measures nothing. Others arrive after the risk has shipped, which is monitoring rather than a gate. A pre-production framework that only tests the **happy path** is a **demonstration**, not an **evaluation**.
+
+## Five Test Types, Each Anchored to Something Different
+
+The two axes say what a framework has to cover. They do not say what the individual tests are, and a scenario that names a type expects you to know what that type is anchored to, because the anchor is the entire difference between them.
+
+| Type | What it is anchored to |
+|---|---|
+| **Unit** | One **component in isolation**, with everything it depends on **stubbed** |
+| **Integration** | The **seam between components**, where each side works and the **contract between them** may not |
+| **Smoke** | The **critical path end to end**, run **fast**, answering only whether the build is **worth testing further** |
+| **Regression** | **Behaviour that already worked**, pinned so a **later change cannot quietly remove** it |
+| **Adversarial** | The system under **deliberate attack**, exercised by somebody **trying to break** it |
+
+Two of the five are anchored to **time rather than to structure**, which is what makes them easy to confuse with the others. A smoke test asks whether anything further is worth doing right now. A regression test asks whether something that worked yesterday still works today. Neither is defined by how much of the system it touches.
+
+That is the confusion worth naming, because it decides items. A regression suite can be built entirely out of unit tests, entirely out of integration tests, or both, and it is still a regression suite. **The type names the reason a test exists**, not the **scope it covers**.
+
+The fast way to place one is to ask what a failure would tell you. A unit failure says a **component is wrong**. An integration failure says **two components disagree** while each is individually fine. A regression failure says **a change removed something that was working**, which is a statement about the change rather than about any component. An adversarial failure says the thing **holds up until somebody wants it not to**.
 
 ## Watching the Grader
 
@@ -164,6 +183,8 @@ Refusals themselves arrive in three different shapes, which is why they are so e
 | Two prompts compared where no single right answer exists | Deterministic checks for the objective parts, rubric grading for the rest, calibrated on human labels | Exact matching against reference texts, or one proxy such as length |
 | Metrics for a production system, two wanted | Span quality, latency, cost and safety, and segment them by a meaningful slice | One aggregate figure on a large sample, or safety treated as consumer-only |
 | A first evaluation set is being built before launch | Real historical items labelled by experts, covering edge cases and rare costly categories, proportions recorded | Generated examples, the most memorable items from development, or labels from the system itself |
+| A test type is named and has to be placed | Unit isolates a component, integration exercises the contract, smoke checks the critical path fast, regression pins what already worked, adversarial attacks it | Reading regression as a scope rather than as the reason a test exists |
+| What must exist before drafting a guide section, two wanted | The audience with the questions it answers, and the section outline | Translation, version control or validation, every one of which consumes drafted text |
 
 The habit worth carrying: ask what this **evaluation would have to show** for you to **stop the release**. If nothing would, it is a report rather than a gate.
 
@@ -181,6 +202,8 @@ The habit worth carrying: ask what this **evaluation would have to show** for yo
 - Batch runs evaluations at **50% of standard pricing** with **increased throughput**, mixing request types freely. **Order is not guaranteed**: match results using the **caller-supplied custom identifier**. **Four result types** exist, **succeeded, errored, canceled and expired**, where **expired means the request never reached the model**, and results **stay available for 29 days**.
 - Structured output compliance breaks in **two documented cases**: a **refusal**, and **hitting max_tokens**, which **cuts the structure off before completion** while remaining **partially parseable**.
 - Refusals arrive **three ways**: a **refusal stop reason** from streaming classifiers, a **400** when input or copyright validation fails, and an **ordinary text response** when the model itself declines. **Handle a refusal as its own outcome**, because **monitoring built on error rates will never show** it.
+- **Five test types, each anchored to something different**: **unit** to one component with its dependencies **stubbed**, **integration** to the **contract between two components**, **smoke** to the **critical path run fast** to decide whether the build is worth testing further, **regression** to **behaviour that already worked**, **adversarial** to the system under **deliberate attack**. The type names **why a test exists**, not **how much it touches**.
+- Before **drafting a section of an architecture guide**, two things must already exist: the **audience with the questions that section answers**, and the **section outline**. Translation, version control and validation all **consume drafted text**, so each is a **consumer wearing a prerequisite's costume**.
 
 ## Endnotes for this chapter
 

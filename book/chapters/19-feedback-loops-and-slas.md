@@ -61,6 +61,20 @@ Then the part people forget, which is the whole point of the exercise: an **SLA 
 
 And on accuracy specifically: turn it into a **target both sides agreed**, judged against **how well people currently do the work** and against **what each kind of mistake costs**, rather than hiding the measured figure, sitting on it, or promising past it. Concealment and delay are the two failures that feel survivable at the time and are not.
 
+## Four Properties That Outlive a Feedback Session
+
+An SLA is agreed once. Agreement is **maintained in a recurring session**, and whether that session earns the hour it costs is decided by four properties, every one of which is about the time on either side of the meeting rather than the meeting itself.
+
+**Artifacts circulated in advance**, so the hour is spent on the disagreements rather than on people reading in silence.
+
+**A focused agenda**, so attendees can prepare against something and so the session has an end condition other than the clock.
+
+**Decisions and follow-ups written down**, because a decision nobody recorded gets retaken next month by whoever remembers it differently, and both parties will remember it in their own favour without anybody lying.
+
+**A named owner and a date** on every follow-up, which is the only one of the four that reliably survives contact with a busy quarter.
+
+Test any proposed format by asking what remains a week later. A session that produced **no artifact anybody can point at** produced **goodwill**, which is worth having and is **not agreement**. That is also the fast way to rank the options in a scenario: the ones that improve the meeting as an experience change how the hour feels, and the ones on the list above change what exists after it.
+
 ## A Report Is Wrong When It Measures the Wrong Thing
 
 When stakeholders are dissatisfied with reporting, there is one diagnosis that matters and three remedies that do not.
@@ -121,6 +135,8 @@ One measurement caveat sits in the same place: **period-to-date spend** is **inf
 | Period-to-date spend reads zero | It may be an unavailable reading, not real usage | Triggering a control on it |
 | A model is being retired | Audit your own API usage to find what still calls it | Relying on the notification to identify your systems |
 
+| A recurring feedback session has to be designed | Artifacts in advance, a focused agenda, written decisions and follow-ups, a named owner with a date | Anything that improves the meeting itself and leaves nothing behind it |
+
 The habit worth carrying: for every signal in your design, ask **what happens to it when nobody is listening**. If the answer is silence, you have built a loop that reports success by saying nothing.
 
 ## What to Remember
@@ -138,6 +154,7 @@ The habit worth carrying: for every signal in your design, ask **what happens to
 - **Drive state from the fetched resource**, and **reconcile by listing or fetching through the API** wherever every transition must be observed. **Notification alone** cannot promise you saw everything.
 - Spend limit responses include the **scope level the limit resolved** from. **Members raise increase requests, not the API**; approve and deny are **both terminal**, **one pending request per member**, and a denial **hides the member's request control for 30 days** while an **administrator can still raise the limit directly**. Emails go out by default with a **documented suppression parameter**. **Period-to-date spend is informational** and may **read zero when unavailable**.
 - Retirement notices always go by **email and into the documentation**, to customers with **active deployments on affected models**, and an **audit of your own API usage** is what identifies which **applications still call a deprecated model**.
+- A feedback session is worth the hour when **four things outlive it**: **artifacts circulated in advance**, a **focused agenda**, **decisions and follow-ups in writing**, and a **named owner with a date**. A session leaving **no artifact anybody can point at** has produced **goodwill rather than agreement**.
 
 ## Endnotes for this chapter
 

@@ -37,6 +37,18 @@ All four bind the design. None of them is produced by it. Holding that line is t
 
 A prompt is not a requirement, it gets drafted and redrafted all the way through the build, measured against criteria that discovery was supposed to hand over, so writing one first hardens guesses that nobody has signed off. A model choice is not a discovery output either. Which model suits the job depends on how accurate, how fast and how cheap the result has to be, and those three numbers are precisely what discovery is still nailing down. Settle the model first and you have resolved a trade-off before anybody stated its terms. Screen designs sit below the value and feasibility questions in the dependency order, and a whole interface can be redrawn without moving any of those answers an inch.
 
+## Two Kinds of Requirement, Separated by the Unit They Are Measured In
+
+Discovery collects requirements of two kinds, and keeping them apart matters because different people sign them off and different tests verify them.
+
+A **functional requirement** names a **behaviour the system owes**. Extract the invoice total. Route the ticket to the right queue. Refuse anything falling outside policy. Every one of those sentences is **about this particular job** and could not be lifted onto a different one without becoming nonsense.
+
+A **non-functional requirement** puts a **bound on how that behaviour is delivered**. Two seconds at the ninety-fifth percentile. Available on an agreed schedule. Under a stated cost per transaction. Records held inside a named jurisdiction. Not one of those four **mentions the work being done**, and that absence is the identifying property: they are **measured in units the subject matter never supplies**.
+
+Which gives you a test taking about four seconds. **Lift the requirement onto a system doing something else entirely** and see whether it survives the move. If it does, it is non-functional, and it belongs among the **binding constraints** rather than in the description of the work.
+
+The reason to bother is that the second kind is where projects die. A functional requirement that was missed produces a feature nobody built, which is embarrassing and fixable. A non-functional requirement that was missed produces a system that does the right thing at the wrong speed, in the wrong place, or at a price nobody approved, and repairing that is usually an architecture change rather than a feature.
+
 ## Who Is Not in the Room Decides What You Will Not Hear
 
 Structured discovery is mostly a question about attendance. Every category of constraint has an **owner**, and a constraint whose **owner is not in the room** will **not be raised**. That is not a risk to manage. It is arithmetic.
@@ -71,6 +83,7 @@ Wrong answers here are almost never lazy. They usually name a real, competent, u
 | A previous engagement resembled this one | Characterise this problem on its own terms, then check whether the resemblance holds up | Opening with the earlier shape, which fixes the engagement to a comparison nobody tested |
 | Production data is offered early | Settle which question the data is meant to answer first | Pulling the data instead of doing discovery, which also starts a privacy discussion nobody came prepared for |
 | The process as described sounds clean | Ask what happens on the days it does not work, and how many of those there are | Writing down the happy path as though it were the process |
+| A requirement has to be classified | Non-functional if it would still read correctly for a system doing entirely different work | Filing a latency, cost, availability or residency number as part of the job description |
 
 One habit carries further than the table. When an option describes an **activity you would genuinely do on this project**, ask when you would do it. Most wrong answers in this area are correct answers to a question that comes three weeks later.
 
@@ -82,4 +95,4 @@ One habit carries further than the table. When an option describes an **activity
 - A constraint whose **owner is not in the room** will not be raised. Enumerate the categories of constraint that could invalidate the design, identify who is **authoritative on each**, and check whether they have **actually said the words**.
 - When a binding requirement surfaces late, the defect is in the **elicitation, not in the client**. Both comfortable alternatives, that the client is unusual or that a stakeholder should have spoken up, are false and **neither changes the outcome next time**.
 - "**Just", "only", "simply" and "basically**" mark **compressed complexity**, as do undefined categories like "standard requests" and "normal volume". Ask what **happens in the case the word excludes**, and how many of those there are.
-
+- A **functional requirement** names a **behaviour this job owes**, such as extracting a total or routing a ticket. A **non-functional requirement** **bounds how that behaviour is delivered**, in **units the work itself never supplies**: latency, availability, cost per transaction, jurisdiction. The test: **lift it onto a system doing something else**, and if it **still reads correctly** it is non-functional and belongs among the **binding constraints**.

@@ -64,6 +64,26 @@ Three things get offered instead, and each fails in a recognisable way:
 
 That last row is worth carrying. Anything you write down that will **silently become false** needs either a **mechanism to keep it current** or a **note saying when it was true**. A document that ages badly does more damage than one that never existed, because people trust it.
 
+## What Is Actually in the Package
+
+Chapter 3 settles when a handoff is finished: the receiving team can run the system, diagnose it and change it with nobody from the original team available. The three readers settle who each artifact is for. Put those together and the package has a fixed inventory, which scenarios present as four competing lists with one complete.
+
+| Artifact | Reader it serves | What its absence costs |
+|---|---|---|
+| **Architecture overview** | All three | Nobody can locate a component before changing it |
+| **Decision records** | The reviewer | The first significant change fights a constraint nobody can see |
+| **Component contracts** | The implementer | Every integration gets renegotiated by guesswork |
+| **Evaluation framework with its reference set** | Implementer and operator | No way to find out whether a change broke anything |
+| **Runbooks** | The operator | Every incident is improvised |
+| **On-call playbook** | The operator | Escalation gets decided during the incident |
+| **Known limitations** | All three | The team rediscovers each one in production, expensively |
+
+Read the competing lists by **what they leave out** rather than by what they contain, because every one of them contains something reasonable.
+
+**Slides without contracts** serve the meeting the design ended with rather than the team the design is going to. **Source code alone** carries the what and not the why, which satisfies the implementer and abandons the other two readers entirely. And a **walkthrough on the day** is this chapter's named anti-pattern arriving as a deliverable: it hands over a person's availability instead of a document.
+
+The same inventory answers the neighbouring question about how deep an implementation guide should go. A team that will **build the thing and then keep it running** owes both halves: **component responsibilities and the contracts between them**, **the dominant flows**, **configuration parameters with their defaults**, and **the runbooks for the operating period**. Deferring flows or runbooks to the delivery team's own documentation is choosing which of their two jobs to leave unwritten.
+
 ## How Wrong Answers Are Built on Documentation Questions
 - A **channel offered where an answer was required**. The test: does this **eliminate the question**, or **route** it?
 - **Depth chosen for the writer's convenience rather than the reader's job**. The test: what do these **readers have to make**, and can they **make** it from this?

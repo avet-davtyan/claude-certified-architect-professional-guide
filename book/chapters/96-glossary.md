@@ -44,21 +44,17 @@ The **working-memory cliff** (ch. 7). The point where adding context stops helpi
 
 **Activity Feed** (ch. 17). The Compliance API's event stream. At-least-once, so deduplicate on activity id, and it offers no completeness signal.
 
-**Architecture decision record (ADR)** (ch. 20). One decision to a record, carrying the **context** that made it necessary, the **decision**, the **alternatives considered**, the **consequences** accepted, and the **date and authors**.
-
 **Adaptive thinking** (ch. 7). Reasoning with no fixed token budget, steered by effort. Requesting it on an extended-thinking-only model returns a 400.
+
+**Adversarial test** (ch. 13). A test anchored to deliberate attack: the system exercised by somebody trying to break it, rather than by somebody checking it works.
+
+**Agent** (ch. 4). The pattern that picks each next step by looking at what the last one returned. Not "more capable" or "more autonomous".
 
 **AI Fluency, the 4Ds** (ch. 1). **Delegation**, deciding what the model does at all; **Description**, telling it what you want; **Discernment**, judging what came back; **Diligence**, owning what you ship. Three named parts each, twelve in total.
 
 **Approval rate parity** (ch. 17). Whether each group gets a yes at a similar rate. Silent on **who was refused in error**, which is **error rate parity**, a separate measurement.
 
-**Agent** (ch. 4). The pattern that picks each next step by looking at what the last one returned. Not "more capable" or "more autonomous".
-
-**Discernment observation** (ch. 1). A statement about the **output**, the **reasoning that produced it**, or the **system's behaviour**. A caveat about **sample size or study duration** is not one.
-
-**Error rate parity** (ch. 17). Whether each group suffers **wrong decisions** at a similar rate. The measurement an approval-rate study leaves unmade.
-
-**Minimum necessary** (ch. 17). The HIPAA rule that only the protected information a purpose requires may be used or disclosed. **Role-based access control implements it**.
+**Architecture decision record (ADR)** (ch. 20). One decision to a record, carrying the **context** that made it necessary, the **decision**, the **alternatives considered**, the **consequences** accepted, and the **date and authors**.
 
 **Augmented call** (ch. 4). A single model call given tools, retrieval, or both.
 
@@ -84,11 +80,19 @@ The **working-memory cliff** (ch. 7). The point where adding context stops helpi
 
 **Context window** (ch. 7). Working memory rather than storage. Everything counts toward it, including tool definitions and cached prefixes.
 
+**Discernment observation** (ch. 1). A statement about the **output**, the **reasoning that produced it**, or the **system's behaviour**. A caveat about **sample size or study duration** is not one.
+
 **Effort** (ch. 7). Soft guidance on how much of the output allowance goes to thinking, with levels max, xhigh, high, medium and low, where high is the default. Controls how much the model thinks, not how much it says.
+
+**Error rate parity** (ch. 17). Whether each group suffers **wrong decisions** at a similar rate. The measurement an approval-rate study leaves unmade.
 
 **Fast mode** (ch. 11). Up to 2.5x higher output tokens per second on Opus 5 and Opus 4.8 at premium pricing. Same weights, quicker inference configuration, no capability change.
 
 **Files API** (ch. 6). Create-once, use-many: upload a file once and reference it by identifier rather than re-sending it.
+
+**Functional requirement** (ch. 2). A statement of what the system does, expressed in the subject matter of the job. Move it to a system doing different work and it stops making sense.
+
+**Handoff package** (ch. 20). The fixed set of artifacts that transfers a system to another team: architecture overview, decision records, component contracts, an evaluation framework with its reference set, runbooks, an on-call playbook, and known limitations.
 
 **HIPAA readiness** (ch. 17). Requires a countersigned BAA and the arrangement enabled. Enforces feature restrictions automatically with a 400, is bound to the exact BAA version, and is permanent once enabled.
 
@@ -96,13 +100,19 @@ The **working-memory cliff** (ch. 7). The point where adding context stops helpi
 
 **inference_geo** (ch. 17). The request parameter controlling where inference runs, `global` or `us`. Distinct from workspace geography, which is fixed at creation.
 
+**Integration test** (ch. 13). A test anchored to the seam between components, where each side works alone and the contract between them may not.
+
 **Managed settings** (ch. 21). The highest layer of the settings precedence stack. Array settings merge, so developers can extend managed lists but not remove from them.
 
 **MCP** (ch. 10). An open protocol connecting model applications to external data and tools over JSON-RPC 2.0, between hosts, clients and servers. The host controls permissions and consent; servers cannot read the whole conversation or see into other servers.
 
 **Memory files** (ch. 21). Loaded at the start of every conversation and treated as context, not as enforced configuration.
 
+**Minimum necessary** (ch. 17). The HIPAA rule that only the protected information a purpose requires may be used or disclosed. **Role-based access control implements it**.
+
 **Model ID** (ch. 14). A pinned version whose underlying model stays constant for that ID's lifetime. A dateless ID is not an evergreen pointer; updates ship under a new ID.
+
+**Non-functional requirement** (ch. 2). A bound on how a behaviour is delivered, measured in units the subject matter never supplies: latency, availability, cost per transaction, jurisdiction. It reads correctly when moved to an unrelated system, which is the test.
 
 **Permission mode** (ch. 15, 16). Which actions run without asking. Manual runs reads only, acceptEdits adds file edits and common filesystem commands, auto runs everything with background checks, dontAsk runs only pre-approved tools, bypassPermissions runs everything. Deny rules survive all of them.
 
@@ -114,7 +124,15 @@ The **working-memory cliff** (ch. 7). The point where adding context stops helpi
 
 **Refusal** (ch. 11, 13, 15). Returned as a successful HTTP 200, not an error. Carries a policy category that may legitimately be null, and the context must be reset before continuing or refusals repeat.
 
+**Regression test** (ch. 13). A test anchored to behaviour that already worked, pinned so a later change cannot quietly remove it. Names the reason a test exists, not the scope it covers, so a regression suite may be built from unit tests, integration tests or both.
+
+**Runbook** (ch. 12). The operator's response document: named alerts, triage steps in order, escalation path, rollback procedure, and pointers to the dashboards and logs. Holds the response, never the decision to fire.
+
+**SIEM** (ch. 15, ch. 17). Security information and event management: the system an organisation forwards logs and security events to for correlation, alerting and after-the-fact review. Useful as a record and as an audit destination, including for compliance queries themselves. It observes rather than intervenes, so forwarding to one never satisfies a requirement that something must not happen.
+
 **Skills** (ch. 8, 21). Versioned packages of instructions, scripts and resources. The body loads only when used. A new version is a complete snapshot, not a delta.
+
+**Smoke test** (ch. 13). A test anchored to the critical path end to end, run fast, answering only whether the build is worth testing further.
 
 **Stop reason** (ch. 11, 12). The field saying why generation ended, with distinct values for a natural finish, the output limit, a stop sequence, a tool call, a pause, a refusal, and an exceeded context window. Not an error field.
 
@@ -124,9 +142,13 @@ The **working-memory cliff** (ch. 7). The point where adding context stops helpi
 
 **Task budget** (ch. 5, 7). A token allowance for a whole agentic loop, shown as a countdown. A soft hint the model may exceed; the enforced ceiling remains the request's max_tokens.
 
+**Tenancy** (ch. 9, ch. 17). The boundary inside which a customer's content is held. A constraint that content must not be stored outside it rules out any design creating a durable copy elsewhere, an external index included, independently of that design's other merits.
+
 **Token passthrough** (ch. 10). Forwarding a received token to a downstream service. Explicitly forbidden: it circumvents audience controls, misattributes identity in logs, and turns the server into an exfiltration proxy.
 
 **Tool search tool** (ch. 9). Searching a large tool catalogue at request time and loading only what a task needs, by regular expression, by natural language against BM25, or by a custom embedding search.
+
+**Unit test** (ch. 13). A test anchored to one component in isolation, with everything it depends on stubbed.
 
 **Webhooks** (ch. 19). Event delivery to endpoints subscribed at the moment of emission. Three attempts, then dropped rather than queued with no signal of loss, and no replay for events emitted while an endpoint was disabled.
 

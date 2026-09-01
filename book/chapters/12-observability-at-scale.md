@@ -99,6 +99,24 @@ Which brings up the distinction that decides the remaining items in this area. A
 
 So when a scenario asks for an early signal, look for whatever is measured **inside the request path, before the answer reaches a human**. Cost reports and usage summaries are not early warnings, whatever their bucket width.
 
+## A Runbook Holds the Response, Not the Detection
+
+Runbooks appear twice in this chapter as things that **consume** instrumentation, and that stays true. It leaves a question open that scenarios ask directly: once the numbers exist, what actually goes inside one.
+
+Five things, and they divide into what happened and what you do about it.
+
+The **alerts that fire in normal operation**, named individually, so every page a person receives has a document behind it rather than a folk memory.
+
+The **triage steps for each one**, in order, so the first ten minutes are not being invented at three in the morning by whoever is on call.
+
+The **escalation path**: who gets woken, at what point, and through which mechanism.
+
+The **rollback procedure**, written to be executed by somebody who did not ship the change and does not know what it contained.
+
+**Pointers to the dashboards and logs** carrying the evidence, so the reader is not composing a query while the incident runs.
+
+What is **not** in a runbook is anything that decides **whether to fire at all**. Thresholds, service-level objectives and the slices they are measured over are the **inputs that produce the alert**. The runbook begins at the moment the alert has already arrived, which is why it can only be written after those numbers exist.
+
 ## How Wrong Answers Are Built on Observability Questions
 - A **consumer of telemetry offered as a source** of it. The option proposes dashboards, alert thresholds or runbooks as instrumentation steps. The test: could this be **built before any data exists**? If yes, it **consumes rather than produces**.
 - **Saving money by deleting signal**. The option samples sessions or retains only errors. The test: would this have **captured the failure you are trying to find**, given that it **looked like a success at the time**?
@@ -118,6 +136,7 @@ So when a scenario asks for an early signal, look for whatever is measured **ins
 | Tracing produces nothing | Two environment variables are required, and the SDK emits nothing itself | Assuming a single setting enables it |
 | Cardinality is reduced to save storage | Accept that analysis granularity falls with it | Treating it as a free optimisation |
 | Real-time monitoring is needed | One-minute buckets | One-day buckets, which are documented for monthly reporting |
+| A runbook has to be filled in | Named alerts, triage steps in order, escalation path, rollback procedure, pointers to dashboards and logs | Thresholds and objectives, which are the inputs that produce the alert |
 
 The habit worth carrying: for every failure mode, name the **field that would change when it happens**. If you cannot name one, that failure is currently undetectable no matter how many dashboards exist.
 
@@ -134,6 +153,7 @@ The habit worth carrying: for every failure mode, name the **field that would ch
 - **Lower metrics cardinality** means **better performance and cheaper storage** in exchange for **less granular analysis**. The dimensions you drop are the **ones an incident will want**.
 - Usage reporting groups and filters by **model**, **workspace**, **API key**, **service tier**, **context window**, **inference region** and **speed**, at **one-minute buckets** for real-time monitoring, **one-hour** for daily patterns and **one-day** for weekly and monthly reports, with a separate endpoint returning **service-level cost breakdowns in US dollars**.
 - An **early signal** is measured **inside the request path** while the request is being served, **before the answer reaches a human**. Anything read from a billing or reporting cycle is a **downstream consequence** describing **something that already happened**.
+- A **runbook holds the response, not the detection**: **named alerts**, **triage steps in order**, the **escalation path**, the **rollback procedure**, and **pointers to the dashboards and logs**. **Thresholds and service-level objectives are inputs that produce the alert**, so they **sit outside** the document that answers it.
 
 ## Endnotes for this chapter
 

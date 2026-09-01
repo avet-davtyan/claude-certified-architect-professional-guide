@@ -154,6 +154,18 @@ Read that last one carefully, because it is counter-intuitive and therefore exam
 
 One governance rule from the same page is worth carrying everywhere: **Skill authors** should **not be their own reviewers**.
 
+## What a Skill Can Enforce, and What Has to Sit in the Application
+
+Scanning asks whether a Skill is safe to run. A different question decides where a guardrail belongs before anybody scans anything, and it turns on what a Skill is **able to guarantee**.
+
+A Skill **shapes what the model produces**. It carries instructions the model reads, so it can require a disclaimer, forbid a category of claim, fix a house format, insist that an assertion arrives with a citation attached. **Content constraints belong there**, and putting them there is cheap, revisable and visible to the people who own the content.
+
+A Skill **cannot authenticate a caller**, and it **cannot guarantee that a record was written**. It is **instruction rather than mechanism**, and instruction is **followed rather than enforced**. So **authorisation stays in the application**, along with anything that has to be **durably recorded**: the audit entry, the committed transaction, the log somebody will read in a dispute six months from now.
+
+The rule compresses to one line. If the requirement is about **what the answer says**, a Skill can hold it. If the requirement is about **who was allowed to ask**, or **what must survive the request**, it needs **code that runs whether or not the model cooperates**.
+
+The **named anti-pattern is the instructed guarantee**: an authorisation rule or an audit obligation written into a Skill, where it reads exactly like a control, satisfies a reviewer skimming for one, and enforces nothing.
+
 ## Oversight That Scales With Consequence
 
 A recurring scenario asks how to review a growing volume of changes without either rubber-stamping everything or blocking the organisation.
@@ -195,6 +207,8 @@ That combination makes oversight scale with **consequence** rather than with **v
 | Failure modes for a risk review, the inherent ones wanted, two wanted | Fluent output that is wrong, and two runs of one request answering differently | Budget growth, network dependence, or needing a valid credential |
 | Customer documents are ingested by an assistant holding outbound tools | Contain the content structurally and gate anything that sends or writes | A larger model, an instruction in the system prompt alone, or matching known attack phrasing |
 
+| A guardrail has to be placed in a Skill or in the application | Content constraints in the Skill; authorisation and durable records in the application | An authorisation rule or audit obligation written into a Skill, which instructs rather than enforces |
+
 The habit worth carrying: for every safety claim in a design, **point at the component that enforces** it. If your finger lands on a paragraph of English, it is not enforced.
 
 ## What to Remember
@@ -214,6 +228,7 @@ The habit worth carrying: for every safety claim in a design, **point at the com
 - A refusal returns a **policy category** plus an explanation whose text is **unstable** and should be **displayed rather than parsed**. A **null category** is **normal and permanent**. **Cyber and bio** categories can trigger on **benign security and life sciences work**. **Partial output** before a mid-stream refusal is **discarded**, and the **context must be reset** before continuing or refusals will repeat.
 - Skill scanning **blocks** a Skill that **fails or has not finished** scanning and **allows one that passes with a warning** behind a caution notice, and it **complements rather than replaces** the review checklist. **Skills uploaded via the API**, **Skills predating the feature**, and organisations using **customer-managed keys, zero data retention or HIPAA readiness** are **not scanned**. Authors do **not review their own Skills**.
 - **Oversight scales with consequence, not volume**: **published reusable standards** everyone adopts, plus **review that fires** only when a **written classification of risk** says it should.
+- A **Skill shapes what the model produces**, so **content constraints live there**: disclaimers, forbidden claims, required citations, house format. A Skill **cannot authenticate a caller or guarantee a record was written**, so **authorisation and durable recording stay in the application**, where **code runs whether or not the model cooperates**.
 
 ## Endnotes for this chapter
 

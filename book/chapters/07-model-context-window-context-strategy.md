@@ -117,6 +117,22 @@ It buys nothing in three cases, and each is a trap in its own right. Material th
 
 There is a subtlety worth stating for tool catalogues specifically. The aim is to shrink how much text the model wades through without making the schemas unusable. **Trim the descriptions** so hard that the **tools stop being distinguishable** and you have **swapped a context problem for a selection problem**, and the second one is much harder to spot.
 
+## A Filter in Front of a Grown Catalogue Leaves the Catalogue Grown
+
+A tool catalogue that grew one addition at a time eventually starts producing wrong selections, and the first proposal in the room is almost always a **router**: a step ahead of the model that narrows the list before the model ever sees it.
+
+Be precise about what that buys. A router **reduces how many tools are visible per request**. It **changes nothing about the descriptions** the model is choosing between, so **two tools that overlap still overlap** on every request where both survive the filter. The selection errors caused by ambiguity are untouched, and a new component now has to be right about intent before any reasoning has happened, which moves the failure earlier rather than removing it.
+
+**Decomposition** is the alternative: **split the catalogue along a seam in the domain** into smaller sets, each one owned and each one coherent read on its own.
+
+Two findings justify that split, and **both have to be present**.
+
+**Descriptions that overlap**, because overlap is the **mechanism actually producing the wrong selections**, rather than a symptom of the catalogue's size.
+
+**A seam that already exists in the domain**, so the split produces sets a person can describe in a sentence instead of an arbitrary partition that has to be memorised.
+
+**Sheer count is not a finding.** Neither is latency, nor spend, nor anybody's discomfort at the length of the list. And an argument that the **router is a poor idea** is not an argument that **decomposition is a good one**: decomposition earns its place from the overlap and the seam, and without them you have reorganised something that was never the problem.
+
 ## How Wrong Answers Are Built on Model and Context Questions
 - **Capacity confused with quality**. The option addresses degraded recall by reordering, re-emphasising or instructing, while the same volume stays loaded. The test: does this **reduce what enters the window** on each request? If not, it cannot fix a **volume symptom**.
 - **Depth bought where there is none to buy**. The option raises the model tier or the reasoning depth for a task that is classification, extraction or lookup. The test: is there **multi-step reasoning** here that a stronger model could perform better?
@@ -140,6 +156,8 @@ There is a subtlety worth stating for tool catalogues specifically. The aim is t
 | A tool catalogue is mostly irrelevant per request and quality is suffering | Load tools as a function of the request | Fixing the set in advance, or trimming descriptions until tools are indistinguishable |
 | Material is small, unchanging, or needed on every request | Load it up front | Deferring it, which adds round trips and removes nothing |
 
+| A grown tool catalogue is producing wrong selections | Decompose along a domain seam, on evidence that descriptions overlap | A router in front, which narrows visibility and leaves the overlap exactly where it was |
+
 The habit worth carrying: **before adding anything to a request, ask what it displaces**. The window is working memory, and everything in it competes with everything else.
 
 ## What to Remember
@@ -156,6 +174,7 @@ The habit worth carrying: **before adding anything to a request, ask what it dis
 - **Compaction** summarises older context near the limit and **drops all content blocks before the compaction block**, triggering at a default of **150,000 input tokens, minimum 50,000**. Custom `instructions` **replace the default prompt entirely**, so an override that means to add one thing silently loses the instruction to record state and next steps.
 - **Context editing removes rather than summarises**, and **clearing tool results invalidates cached prefixes**, which is why `**clear_at_least` exists**: clear a worthwhile amount at once rather than paying the cache cost repeatedly.
 - **Progressive discovery pays** when the catalogue is **mostly irrelevant per request** and the load is **already degrading quality**. It buys nothing for material that is **small, unchanging, or needed every time**. Trimming tool descriptions until the tools stop being distinguishable **swaps a context problem for a selection problem**.
+- **Decomposing a grown tool catalogue** requires **two findings, both present**: **descriptions that overlap**, which is the **mechanism producing the wrong selections**, and a **seam already in the domain** to cut along. A **router narrows what is visible per request** and **leaves overlapping descriptions overlapping**, so **arguing against the router is not arguing for decomposition**.
 
 ## Endnotes for this chapter
 

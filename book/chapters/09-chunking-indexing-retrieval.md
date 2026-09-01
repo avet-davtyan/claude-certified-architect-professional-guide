@@ -70,6 +70,20 @@ Two facts that scenarios are built on.
 
 There is a parallel worth drawing to the previous chapter's tool-catalogue problem, because the documented solution has the same shape. The tool search tool keeps a very large catalogue usable by searching it and loading only the definitions a task needs, rather than loading everything up front. Two variants exist, one where Claude builds regular expression patterns and one where it issues natural language queries against BM25, and a custom implementation can use embeddings or semantic search.<sup>[5]</sup> **Selecting from a large set at request time** is the **same problem** whether the set is **documents or tools**, and BM25 appearing beside embeddings here is the same lexical-versus-semantic split from chapter 6. Deferral is not a universal improvement, and the documentation says where it stops paying: **standard tool calling fits better under about ten tools**, when **every tool is used on every request**, or when the definitions are **small enough not to matter**. Deferred definitions still **cost input tokens once loaded**, so what changes is when they are **charged**, not whether.
 
+## Reuse of One Document Is a Caching Problem, Coverage of Many Is a Retrieval One
+
+Two scenarios read almost identically and take opposite answers, so it pays to have the discriminator ready rather than deriving it under time pressure.
+
+**One large document, queried repeatedly inside one piece of work.** A filing, a contract, a specification. What repeats between requests is the **material itself**, unchanged, while the question moves. That is a **caching** shape: the document sits in the cacheable prefix and is paid for once across the run rather than on every question.
+
+**A large collection where any one question needs a small slice.** A standards library, a knowledge base, an archive. What repeats is the **shape of the request** rather than its content, and no two questions want the same passage. That is a **retrieval** shape: index it, fetch what bears on the question, leave the rest unread.
+
+The test is one question: **what stays identical between two consecutive requests?** Same material and a different question means cache it. Different material every time means retrieve it.
+
+Then the constraint that overrides the performance argument entirely. When the content **may not leave the customer's boundary**, building an index is not on the table whatever its retrieval properties, because an index is a **durable second copy of the content** living in another system. Caching moves nothing outside the request path it was already on. Where a copy **comes to rest** is a **governance question**, and it gets answered **before the cost question does**.
+
+Two summarising moves look like answers here and are not. **Summarising once at intake** and querying the summary afterwards is cheap and **discards the material the later questions are about**, so it trades the thing being asked for. **Moving to a smaller model** changes the rate on the meter and not the reading. The same oversized request is still assembled and still sent, so the volume that caused the problem is exactly where it was.
+
 ## How Wrong Answers Are Built on Retrieval Pipeline Questions
 - **Quantity offered against a content defect**. The option retrieves more passages, enlarges chunks, adds overlap or re-ranks. The test: does this change what is **inside a retrieved piece**, or only how **many pieces** there are?
 - A **downstream stage offered against an upstream problem**. The option tunes generation, breadth or cadence against material that is already in the passage set. The test: at which **stage does the bad content enter**, and at which **stage can it be excluded**?
@@ -89,6 +103,9 @@ There is a parallel worth drawing to the previous chapter's tool-catalogue probl
 | An embedding model is needed | A third-party provider; Anthropic does not offer one | An option describing an Anthropic embeddings endpoint |
 | A very large tool catalogue is hurting the context | Search the catalogue and load only what the task needs | Loading every definition up front |
 
+| One large document is queried many times in one case | Cache it as the prefix; the material repeats and the question moves | Indexing it, which builds a second copy to solve a reuse problem |
+| Content may not leave the customer boundary | An external index is out; a cache creates no durable copy elsewhere | Choosing on retrieval quality and treating the boundary as a later detail |
+
 The habit worth carrying: for any proposed retrieval change, ask whether it alters the **contents of the passage set** or only its **size**. Most wrong answers here are quantity changes offered against a quality problem.
 
 ## What to Remember
@@ -102,6 +119,7 @@ The habit worth carrying: for any proposed retrieval change, ask whether it alte
 - Stale content enters at **ingestion** and can be excluded at **retrieval filtering**. Those are the **only two stages** that act on it. Rebuild cadence, retrieval breadth and generation are all **downstream of the passage set** and cannot change what is in it.
 - **Anthropic does not provide an embedding model**, and documents and queries are embedded with **different input types** marking which side of the retrieval each sits on.
 - A very large tool catalogue is solved the **same way as a large corpus**: **search it at request time** and **load only what is needed**, by regular expression, by natural language against BM25, or by a custom embedding-based search.
+- **Repeated material with a moving question is a caching shape**; **fresh material on every request is a retrieval shape**. The test is **what stays identical between two consecutive requests**. A **boundary constraint settles it before performance does**, because an **index is a durable second copy** of the content and a **cache is not**.
 
 ## Endnotes for this chapter
 
