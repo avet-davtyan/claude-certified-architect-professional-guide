@@ -8,6 +8,8 @@ The editorial position is this: the exam tests decisions, not features. Much of 
 
 > **Tested.** I sat CCAR-P on 1 September 2026 and passed with a scaled score of 973 against a pass mark of 720, missing 2 questions on the whole exam. This book was the only book I read to understand the material. There were no other books, tutorials or courses.
 
+[**Video overview of the project**](https://youtu.be/2FctIa7_KNY)
+
 ## How the chapters are built
 
 Every chapter carries the same apparatus in the same order, so you can open one you have not read and know where you are.
