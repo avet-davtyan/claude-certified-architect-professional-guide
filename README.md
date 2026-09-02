@@ -6,7 +6,7 @@ A practitioner guide for the Anthropic **CCAR-P** certification: 21 chapters, ar
 
 The editorial position is this: the exam tests decisions, not features. Much of what it asks has no documentation page behind it, because it is asking how an architect behaves and not how Claude behaves. So the book argues each decision to the point where the trade-off is visible, on the theory that reasoning transfers to a question nobody has seen and a memorised answer does not.
 
-> **Tested.** I sat CCAR-P on 1 September 2026 and passed with a scaled score of 973 against a pass mark of 720, missing 2 questions on the whole exam. This book was the only book I read to understand the material. There were no other books, tutorials or courses.
+> **Tested.** I sat CCAR-P on 1 September 2026 and [passed](https://www.credly.com/badges/91687ca6-d512-417b-868a-3dba245c59fe) with a scaled score of 973 against a pass mark of 720, missing 2 questions on the whole exam. This book was the only book I read to understand the material. There were no other books, tutorials or courses.
 
 [**Video overview of the project**](https://youtu.be/2FctIa7_KNY)
 
